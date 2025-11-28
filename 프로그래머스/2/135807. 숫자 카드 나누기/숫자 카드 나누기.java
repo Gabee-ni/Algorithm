@@ -25,25 +25,11 @@ class Solution {
             numB = gcd(numB,arrayB[i]);
         }
 
-        
-        // //최대공약수나, 그 수의 약수들(최대공약수%i==0) 중에 조건을 만족하는 가장 큰 수 찾기 
-        // for(int i=numA; i>1; i--){
-        //     if(numA%i==0 && check(arrayB,i)){
-        //         answer = Math.max(answer,i);
-        //         break;
-        //     }
-        // }
-        // for(int i=numB; i>=1; i--){
-        //     if(numB%i==0 && check(arrayA,i)){
-        //         answer = Math.max(answer,i);
-        //         break;
-        //     }
-        // }
         if(check(arrayA, numB)){
             answer = (numA>numB)?numA:numB;
             return answer;
         }
-         if(check(arrayB, numA)){
+        if(check(arrayB, numA)){
             answer = (numA>numB)?numA:numB;
             return answer;
         }
