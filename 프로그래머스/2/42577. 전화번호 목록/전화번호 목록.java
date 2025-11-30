@@ -5,10 +5,10 @@ class Solution {
         
         Map<Integer,String> map = new HashMap<>();
         
-        map.put(0,phone_book[0]);
+        String key = phone_book[0];
         for(int i=1;i<phone_book.length ;i++){
-            if(phone_book[i].startsWith(map.get(i-1))) return false;
-            else map.put(i,phone_book[i]);
+            if(phone_book[i].startsWith(key)) return false;
+            else key = phone_book[i];
         }
 
         return true;
