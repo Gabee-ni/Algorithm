@@ -11,7 +11,7 @@ class Solution {
                 if(c == ')') {
                     if(stack.peek()=='(') {
                         stack.pop();
-                        continue;
+                        // continue;
                     }else stack.push(c);
                 }else if(c=='('){
                     stack.push(c);
