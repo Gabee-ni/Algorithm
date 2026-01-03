@@ -5,18 +5,16 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
 
-		int N = Integer.parseInt(st.nextToken());
-		long result = factorial(N);
-		System.out.println(result);
+		int N = Integer.parseInt(br.readLine());
+		System.out.println(factorial(1,N));
 		
 	}
 	
-	public static long factorial(int depth) {
-		
-		if(depth <= 1) return 1;
-		return depth*factorial(depth-1);
+	public static long factorial(int depth, int N) {
+		if(N==0) return 1;
+		if(depth == N) return N;
+		return depth*factorial(depth+1, N);
 	}
 
 }
