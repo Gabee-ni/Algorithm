@@ -1,49 +1,37 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
-	
-	public static void main(String[] args) throws IOException {
-		BufferedReader br  = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		
-		int N = Integer.parseInt(st.nextToken());
-		int M = Integer.parseInt(st.nextToken());
-		List<List<Integer>> result = new ArrayList<>();
-		int[] arr = new int[N];
-		
-		for (int i=0; i<N; i++) {
-			arr[i] = i+1;
-		}
-		
-		perm(result, new ArrayList<>(),arr,M,0);
-		
-		StringBuilder sb = new StringBuilder();
-		for (List<Integer> list : result) {
-			for(Integer num : list ) {
-				sb.append(num+" ");
-			}
-			sb.append("\n");
-		}
-		System.out.println(sb.toString());
-			
-	}
-	
-	static void perm(List<List<Integer>> result, List<Integer> cur, int[] arr, int M, int start) {
-		if (M==0) {
-			//결과 리스트에 현재 수열 삽입
-			result.add(new ArrayList<>(cur));
-			return;
-		}
-		//start를 지정해줘야 이미 고른 것을 또 확인 X
-		for (int i=start; i<arr.length; i++) {
-			cur.add(arr[i]);
-			perm(result, cur, arr, M-1,i+1);
-			//리턴 후 방금 더한 원소를 뺴줘야 다음에도 사용 가능.
-			cur.remove(cur.size()-1);
-		}
-	}
-	
-	
 
+    static List<String> list;
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+
+        list = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+
+        comb(sb, N, M, 1);
+
+        for (String str : list) {
+            System.out.println(str);
+        }
+    }
+
+    public static void comb(StringBuilder sb, int N, int M, int start) {
+        if (sb.length() == M * 2) {
+            list.add(sb.toString());
+            return;
+        }
+
+        for (int i = start; i <= N; i++) {
+            sb.append(i).append(" ");   // 숫자 추가
+            comb(sb, N, M, i + 1);      // 다음 단계
+            sb.delete(sb.length()-2,sb.length()); //상태 복구(줄바꿈까지)
+        }
+    }
 }
