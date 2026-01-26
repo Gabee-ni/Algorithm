@@ -1,35 +1,36 @@
 import java.util.*;
 import java.io.*;
 
-class Main{
-    public static void main(String[] args ) throws Exception{
+class Main {
+    public static void main (String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        
+
         long X = Integer.parseInt(st.nextToken());
         long Y = Integer.parseInt(st.nextToken());
-        long Z = (Y*100) / X ;
-        
-        if (Z >= 99){ 
+
+        long Z = (Y * 100) / X ;
+        if(Z >= 99 ){
             System.out.println(-1);
             return;
         }
-        
-        long result = 0; 
-        long start = 1;
+
+        long start = 1; 
         long end = 1000000000L;
-        long m = (start+end)/2;
+        long mid = 0;
+        long count = 0; 
         
-        while(start <= end){
-            m = (start+end)/2;
-            long newScore = (Y+m)*100/(X+m);
-            if( newScore > Z ) {
-                end = m-1;
-                result = m;
+        while(start<= end){
+            mid = (start + end)/2;
+            long newRate = (Y + mid)*100 / (X+mid);
+
+            if (newRate <= Z){
+                start = mid + 1; 
             } else {
-                start = m+1;
+                end = mid - 1;
+                count = mid;
             }
         }
-        System.out.println(result);
+        System.out.println(count);
     }
 }
