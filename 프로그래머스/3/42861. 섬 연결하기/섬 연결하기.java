@@ -1,72 +1,76 @@
 import java.util.*;
-//크루스칼알고 + 유니온파인드 => 스패닝 없이, 최소 경로 찾기 
+
 class Solution {
-    static class Edge {
-        int i;
-        int j;
-        int cost; 
+    static class Edge{
+        int s; 
+        int e;
+        int cost;
         
-        Edge(int i, int j, int cost){
-            this.i = i;
-            this.j = j;
+        Edge(int s, int e, int cost){
+            this.s = s;
+            this.e = e;
             this.cost = cost;
         }
     }
     static int[] parent;
     static int[] rank;
     
-    //find 함수 -> 부모 노드 찾기
-    public int find(int num){
-        if(parent[num] == num) return num; 
-        parent[num] = find(parent[num]);
-        return parent[num];
+    // find 함수
+    public int find (int node){
+        if(parent[node]==node) return node; 
+        return parent[node] = find(parent[node]);
     }
-    //union 함수 -> 깊이 비교헤서 더 짧은 그룹을 긴 그룹에 붙이기 
-    public boolean union(int a, int b){
-        int pa = find(a);
-        int pb = find(b);
-        if (pa == pb) return false;
-
-        if(rank[pa] > rank[pb]) parent[pb] = pa;
-        else if(rank[pa] < rank[pb] ) parent[pa] = pb;
+    
+    
+    // union 함수
+    public boolean union (int s, int e){
+        int ps = find(s); 
+        int pe = find(e);
+        
+        if(ps == pe) return false; 
+        
+        if(rank[ps] > rank [pe]) parent[pe] = ps;
+        else if(rank[ps] < rank[pe]) parent[ps] = pe; 
         else {
-            parent[pb] = pa;
-            rank[pa]++;
+            parent[ps] = pe; 
+            rank[pe] ++; 
         }
-        return true; 
+        
+        return true;
     }
+    
     
     public int solution(int n, int[][] costs) {
         int answer = 0;
-        List<Edge> graph = new ArrayList<>(); 
-        for(int i=0; i<costs.length; i++){
-            graph.add(new Edge(costs[i][0], costs[i][1], costs[i][2]));
+        
+        List<Edge> graph = new ArrayList<>();
+        for(int[] c : costs){
+            graph.add(new Edge(c[0],c[1],c[2]));
         }
         
-        Collections.sort(graph, (a,b)->{
-            return a.cost - b.cost;
+        Collections.sort(graph, (a,b)-> {
+           return a.cost - b.cost; 
         });
-        
-     //   graph.stream()
-     // .forEach(i -> System.out.println(i.cost));
         
         parent = new int[n];
         rank = new int[n];
         
-        for(int i=0; i<n; i++){
-            parent[i] = i; 
+        for(int i =0; i<n ;i++){
+            parent[i] =i;
         }
         
-        int totalCost = 0;
-        int used = 0;
-
-        for (Edge e : graph) {
-            if (union(e.i, e.j)) {
-                totalCost += e.cost;
-                used++;
-                if (used == n-1) break; 
+        int totalCost = 0; 
+        int used = 0; 
+        
+        for (Edge e : graph ){
+            if(union(e.s, e.e)){
+                totalCost += e.cost; 
+                used++; 
+                
+                if(used == n-1) break;
             }
-        }   
+        }
+
         
         return totalCost;
     }
