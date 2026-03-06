@@ -8,6 +8,5 @@ JOIN (
         MAX(size_of_colony) as max_size
     FROM ecoli_data 
     GROUP BY YEAR(differentiation_date)
-)t 
-WHERE YEAR(e.differentiation_date) = t.year
+)t ON YEAR(e.differentiation_date) = t.year
 ORDER BY year, year_dev
