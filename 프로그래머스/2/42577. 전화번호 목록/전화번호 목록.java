@@ -1,16 +1,19 @@
 import java.util.*;
 class Solution {
     public boolean solution(String[] phone_book) {
-        Arrays.sort(phone_book);
+        boolean answer = true;
         
-        Map<Integer,String> map = new HashMap<>();
+        Arrays.sort(phone_book, (o1,o2)->{
+           return o1.compareTo(o2); 
+        });
         
-        String key = phone_book[0];
-        for(int i=1;i<phone_book.length ;i++){
-            if(phone_book[i].startsWith(key)) return false;
-            else key = phone_book[i];
+        for (int i=1; i<phone_book.length; i++){
+            if(phone_book[i].startsWith(phone_book[i-1])){
+                answer = false;
+                break;
+            }
         }
-
-        return true;
+        
+        return answer;
     }
 }
