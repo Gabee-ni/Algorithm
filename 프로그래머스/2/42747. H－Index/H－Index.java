@@ -1,33 +1,28 @@
 import java.util.*;
-
 class Solution {
     public int solution(int[] citations) {
         int answer = 0;
         
-        citations = Arrays.stream(citations)
-            .boxed()
-            .sorted(Collections.reverseOrder())
-            .mapToInt(i->i).toArray();
+        Arrays.sort(citations); 
         
-        int start = 0;
-        int end = citations.length;
+        //논문 개수
+        int start = 0; 
+        int end = citations.length; 
         
-        while ( start <= end ){
-            int mid = (start+end)/2;
-            int cnt = 0;
-            for (int i = 0; i<citations.length; i++){
-                if (citations[i] >= mid) cnt++;
+        while (start <= end) {
+            int h = (start+end)/2;
+            int uses =0;
+            
+            for (int i=0; i<citations.length; i++) {
+                if(citations[i] >= h) uses++; 
             }
             
-            if (cnt >= mid) {
-                start = mid + 1;
-                answer = mid;
-            } else {
-                end = mid - 1;
-            }
-            
+            if(uses >= h && citations.length - uses <= h ) {
+                answer = Math.max(answer,h); 
+                start = h+1; 
+            } else end = h-1; 
         }
-               
+        
         return answer;
     }
 }
