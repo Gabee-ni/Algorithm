@@ -1,22 +1,20 @@
 import java.util.*; 
-import java.util.stream.*;
-
 class Solution {
     public String solution(int[] numbers) {
         String answer = "";
+        String[] str = new String[numbers.length]; 
         
-        answer = Arrays.stream(numbers)
-                        .boxed()
-                        .sorted((o1,o2)-> {
-                            String num1 = String.valueOf(o1);
-                            String num2 = String.valueOf(o2);
-                            
-                            return (num2+num1).compareTo(num1+num2);
-                        })
-                        .map(String::valueOf)
-                        .collect(Collectors.joining());
-
-        if (answer.charAt(0) == '0') return "0";
+        for (int i=0; i<numbers.length; i++) {
+            str[i] = numbers[i]+"" ; 
+        }
+        
+        Arrays.sort(str, (o1,o2) -> {
+            return (o2+o1).compareTo(o1+o2);
+        });
+        if (str[0].equals("0")) return "0"; 
+        
+        for (String s : str) answer += s; 
+        
         return answer;
     }
 }
