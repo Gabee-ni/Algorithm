@@ -28,7 +28,6 @@ class Solution {
             String cur = stack.peek();
             Deque<String> nexts = map.get(cur);
             
-            //cur에서 갈 곳이 있으면 티켓 하나 꺼내서 이동
             if(nexts != null && !nexts.isEmpty()){
                 String next =  nexts.removeFirst(); 
                 stack.push(next);
