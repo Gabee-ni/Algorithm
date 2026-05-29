@@ -1,41 +1,46 @@
 import java.util.*;
-
 class Solution {
+    String[] answer; 
+    boolean[] visited; 
+    boolean found = false; 
+    
     public String[] solution(String[][] tickets) {
-        String[] answer = {};
-        Map<String, Deque<String>> map = new HashMap();
-        Arrays.sort(tickets, (a,b)-> {
-            if(a[0].equals(b[0])){
-                return a[1].compareTo(b[1]);
-            }    
-            return a[0].compareTo(b[0]);
+        Arrays.sort(tickets, (a,b) -> {
+            if(a[0].equals(b[0])) return a[1].compareTo(b[1]);
+            return a[0].compareTo(b[0]); 
         });
         
-        for (int i=0; i< tickets.length; i++){
-            String from = tickets[i][0];
-            String to = tickets[i][1];
-            
-            map.computeIfAbsent(from, k-> new ArrayDeque()).addLast(to);
-            
+        visited= new boolean[tickets.length];
+        
+        List<String> route = new ArrayList<>(); 
+        route.add("ICN"); 
+        
+        dfs("ICN", tickets, route, 0); 
+        
+        return answer;
+    }
+    
+    public void dfs(String cur, String[][] tickets, List<String> route, int usedCnt){
+        if(found) return; 
+        
+        if(usedCnt == tickets.length) {
+            answer = route.toArray(new String[0]);
+            found = true; 
+            return; 
         }
         
-        ArrayDeque<String> stack = new ArrayDeque<>();
-        List<String> route = new ArrayList<>();
-        
-        stack.push("ICN");
-        
-        while (!stack.isEmpty()){
-            String cur = stack.peek();
-            Deque<String> nexts = map.get(cur);
-            
-            if(nexts != null && !nexts.isEmpty()){
-                String next =  nexts.removeFirst(); 
-                stack.push(next);
-            } else {
-                route.add(stack.pop());
+        for(int i=0; i< tickets.length; i++){
+            if(!visited[i] && tickets[i][0].equals(cur)){
+                visited[i] = true; 
+                route.add(tickets[i][1]);
+                
+                dfs(tickets[i][1], tickets, route, usedCnt+1); 
+                
+                if(found) return;
+                
+                visited[i] = false; 
+                route.remove(route.size()-1);
             }
         }
-        Collections.reverse(route);
-        return route.toArray(new String[0]);
     }
 }
