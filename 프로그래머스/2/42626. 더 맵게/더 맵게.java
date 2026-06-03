@@ -1,23 +1,23 @@
 import java.util.*;
 class Solution {
     public int solution(int[] scoville, int K) {
-        int answer = 0;
-        Queue<Integer> queue = new PriorityQueue<>();
-        
-        for(int i=0; i<scoville.length;i++){
-            queue.offer(scoville[i]);
+        PriorityQueue<Integer> heap = new PriorityQueue<>();
+        //최소힙에 넣어서 낮은 스코빌 지수를 새로운 지수로 만들고 다시 넣음. 힙에서 꺼낸 애가 K이상이면 -> 최소가 K이상인 것이니까 종료 
+        for(int n : scoville){
+            heap.offer(n);
         }
         
-        //우선순위 큐이므로 제일 낮은 지수가 peek
-        while(queue.peek() < K){
-            // 큐에 스코빌지수가 k보다 작은 수가 단 1개 남은경우
-            // 새로운 스코널 지수 생성 X
-            if(queue.size()==1) return -1; 
+        int answer = 0; 
+        while(!heap.isEmpty()){
+            int score = heap.poll();
+            if(score >= K) break; 
             
-            queue.offer(queue.poll()+(queue.poll()*2));
-            answer++;
+            if(!heap.isEmpty()){
+                int newScore = score + (heap.poll() * 2);
+                heap.offer(newScore);
+                answer++;
+            } else return -1;
         }
-        
         return answer;
     }
 }
