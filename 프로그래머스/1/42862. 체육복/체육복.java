@@ -1,38 +1,32 @@
-import java.util.*;
+import java.util.*; 
+
 class Solution {
     public int solution(int n, int[] lost, int[] reserve) {
         int answer = 0;
-        List<Integer> list  = new ArrayList<>();
+        int[] gymCloth = new int[n]; 
+    
+        Arrays.fill(gymCloth, 1); 
+        Arrays.sort(lost); 
+        Arrays.sort(reserve); 
         
-        for(int num : reserve){
-            list.add(num);
-        }
+        for(int num : reserve) gymCloth[num-1]++; 
+        for(int num : lost) gymCloth[num-1]--; 
         
-        Arrays.sort(lost);
-        Collections.sort(list);
-        
-        for(int i=0; i<lost.length;i++){
-            if(list.contains(lost[i])) {
-                answer++;
-                list.set(list.indexOf(lost[i]),0);
-                lost[i] = 0;
-                continue;
-            }
-        }
-        
-        for(int i=0; i<lost.length;i++){
-            if(lost[i]==0) continue;
-            for(int j=0; j<list.size(); j++){
-                if(list.get(j)==0) continue;
-                if(lost[i]==list.get(j)-1||lost[i]==list.get(j)+1){
-                    answer++;
-                    list.set(j,0);
-                    lost[i] = 0;
-                    break;
+        for(int i=0; i<n; i++){
+            if (gymCloth[i]==2){
+                if(i>0 && gymCloth[i-1] == 0) {
+                    gymCloth[i]--; 
+                    gymCloth[i-1]++; 
+                } else if( i<n-1 && gymCloth[i+1] == 0) {
+                    gymCloth[i]--; 
+                    gymCloth[i+1]++;
                 } 
             }
         }
         
-        return n-(lost.length-answer);
+        for(int num : gymCloth){
+            if (num > 0) answer++; 
+        }
+        return answer;
     }
 }
